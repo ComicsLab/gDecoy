@@ -1,0 +1,582 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Hyperspace by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Sidebar -->
+			<section id="sidebar">
+				<div class="inner"><img src="images/new_banner5NNN.jpg" alt="" data-position="" width="180" /><br><br>
+                                    
+					<nav>
+						<ul>
+							<li><a href="#intro"><i class="fas fa-home fa-lg">&emsp;</i>Introduction</a></li>
+							<li><a href="#one"><i class="fas fa-tools  fa-lg"></i> Generating decoy sequence database</a></li>
+							<li><a href="#two"><i class="fas fa-info-circle fa-lg">&emsp;</i>Help</a></li>
+							<li><a href="#three"><i class="fas fa-user-cog fa-lg">&emsp;</i>About us</a></li>
+						</ul>
+					</nav>
+				</div>
+			</section>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Intro -->
+					<section id="intro" class="wrapper style1 fullscreen fade-up">
+						<div class="inner">
+                                                    <h3>Introduction</h3><h4>Target-decoy  database search strategy</h4>
+                                                        <p>The target-decoy search strategy is a commonly used method on shotgun proteomics for estimating the false discovery rate (FDR) on the PSM, peptide and protein identifications.
+                                                            For easily generating the decoy sequence database, this site is implemented the reverse, pseudo reverse, and pseudo shuffle methods:<br><br>
+                                                            <strong>Reverse method:</strong> Each sequence entries of the target database is directly reverse the sequence as a decoy sequence. For example, the target sequence is MNCGRGPDNKCIQ then the decoy sequence is QICKNDPGRGCNM.<br><br>
+                                                            <strong>Pseudo reverse method:</strong> Each sequence entries of the target database are fixed the cleavage site of sequence entry (K/R in the example), and then reverse the interval sequence between the cleavage site as a decoy sequence. For example, the target sequence is MNCG<strong>R</strong>GPDN<strong>K</strong>CIQ then the decoy sequence is GCNM<strong>R</strong>NDPG<strong>K</strong>QIC.<br><br>
+                                                            <strong>Pseudo shuffle method:</strong> Each sequence entries of the target database are fixed the cleavage site of sequence entry (K/R in the example), and then shuffle the interval sequence between the cleavage site as a decoy sequence. For example, the target sequence is MNCG<strong>R</strong>GPDN<strong>K</strong>CIQ then the decoy sequence is CGMN<strong>R</strong>DGNP<strong>K</strong>ICQ.<br><br>
+                                                        We recommended the protein sequence database using the reverse and pseudo reverse method to generate decoy protein sequence database for identification. Besides, the peptide sequence database using the pseudo reverse method.</p>
+							<ul class="actions">
+								<li><a href="https://scholar.google.com.tw/scholar?hl=zh-TW&as_sdt=0%2C5&as_vis=1&q=Target+decoy+database+search+strategy&btnG=" target="_blank" class="button scrolly">Learn more</a></li>
+							</ul>
+						</div>
+					</section>
+
+				<!-- One -->
+					<section id="one" class="wrapper style2 spotlights">
+						<section>
+							<div class="content">
+								<div class="inner">
+									<h3>Generating decoy sequence database</h3> <br>
+									        <label>Target sequence database (<100 MB):</label> 
+        &emsp;<input type="file" id="input" onchange='readFile()'>
+        <br>
+        <label>Decoy tag:</label>   
+        &emsp;<input type="text" id="DecoyTag" value="DECOY"/>
+        <br>
+        <label>Decoy tag format:</label>   
+        &emsp;<input type="radio" name="SiteDecoy" value="0" id="Dtag" checked onclick='getValuePar_SiteDecoy(this)'/> <label>Prefix</label>
+        &emsp;<input type="radio" name="SiteDecoy" value="1" onclick='getValuePar_SiteDecoy(this)' /> <label>Suffix</label>
+        <br>
+        
+        <label>Decoy method:</label>
+        &emsp;<input type="radio" name="DMethod"  value="0" id="Me1" onclick='HideProteaseList();getValuePar_DMethod(this)' checked/> <label>Reverse&emsp;</label>
+        &emsp;<input type="radio" name="DMethod" value="1" onclick='ShowProteaseList();getValuePar_DMethod(this)'/> <label>Pseudo Reverse&emsp;</label>
+        &emsp;<input type="radio" name="DMethod" value="2" onclick='ShowProteaseList();getValuePar_DMethod(this)'/> <label>Pseudo Shuffle&emsp;</label>
+        <br>
+        <div id="ESelection" style="" >
+        <label>Select a protease's cleavage sites for implementation pseudo reverse method:</label> <br>
+        <table>
+  	<tr>
+           <td><input type="radio" name="Protease" id="p1" value="0" checked disabled onclick='getValuePar_Protease(this)'/><label>Trypsin (K/R)&emsp;&emsp;&emsp;</label></td>
+  	  <td><input type="radio" name="Protease" id="p2" value="1" disabled onclick='getValuePar_Protease(this)'/><label>Trypsin (K/R not P)&emsp;&emsp;&emsp;</label></td>
+ 	 </tr>
+ 	 <tr>
+   	 <td><input type="radio" name="Protease" id="p3" value="2" disabled onclick='getValuePar_Protease(this)'/><label>ArgC (R)&emsp;&emsp;&emsp;</label></td>
+   	 <td ><input type="radio" name="Protease" id="p4" value="3" disabled onclick='getValuePar_Protease(this)'/><label>ArgC (R not P)&emsp;&emsp;&emsp;</label></td>
+  	</tr>
+  	<tr>
+    	<td><input type="radio" name="Protease" id="p5" value="4" disabled onclick='getValuePar_Protease(this)'/><label>GluC (D/E)&emsp;&emsp;&emsp;</label></td>
+    	<td><input type="radio" name="Protease" id="p6" value="5" disabled onclick='getValuePar_Protease(this)'/><label>GluC (D/E not P)&emsp;&emsp;&emsp;</label></td>
+  	</tr>
+   	<tr>
+    	<td><input type="radio" name="Protease" id="p7" value="6" disabled onclick='getValuePar_Protease(this)'/><label>LysC (K)&emsp;&emsp;&emsp;</label></td>
+    	<td></td>
+  	</tr>       
+	</table>
+        </div>
+  
+        
+        <textarea  id="fileContent" cols="5" rows="1" hidden ></textarea>
+        <textarea  id="ReadStatus" cols="5" rows="1"  hidden></textarea> 
+        <textarea  id="OutputContent" cols="5" rows="1" hidden></textarea>
+        <input type="hidden" id="PP_SiteDecoy" value="0" />
+        <input type="hidden" id="PP_DMethod" value="0" />
+        <input type="hidden" id="PP_Protease" value="0" /><br>
+
+        <input type="button" value="DeCoy" id="RunID" onclick="RunDecoy()">&emsp;<input type="button" value="Reset" onclick="Reset()"><br>&emsp;&emsp;&emsp;&emsp;&emsp; <br>
+        
+        <label>Output :&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</label> <label id="progressT" style="visibility:hidden">. . . <i class="fas fa-yin-yang  fa-spin fa-2x" ></i> . . .</label>
+        <br><br>
+        <div style="visibility:hidden" id="ShowDownloadLink"><label><em>Download the decoy database:&emsp;</em></label><input type="button" value="Download" onclick="Savefile()"><br><br><br><br></div>
+
+
+								<br></div>
+							</div>
+						</section>
+						
+					</section>
+
+				<!-- Two -->
+					<section id="two" class="wrapper style3 fade-up">
+						<div class="inner">
+							<h3>Help</h3>
+							<div class="features">
+								<section>
+									<span class="icon solid major fa-file-import"></span>
+									<h3>Target sequence database format</h3>
+									<p>Accept the sequences in fasta format, such as the Uniprot, neXtProt, Ensembl and RefSeq fasta files.
+                                                                            </p><img src="images/sdsdsZZ.png" alt="" data-position="" width="320"/>
+								</section>
+								<section>
+									<span class="icon solid major fa-file-export"></span>
+									<h3>Decoy sequence database format</h3>
+									<p>The output file is fasta format. The prefix decoy tag format for Trans-Proteomic Pipeline (TPP). The suffix decoy tag format for SearchGUI and PeptideShaker tools</p>
+                                                                          <img src="images/fdfdfdfdfZZ.png" alt="" data-position="" width="320" />
+                                                                </section>
+
+								
+							</div><br><br><br><br><br><br><br>
+						</div>
+					</section>
+
+				<!-- Three -->
+					<section id="three" class="wrapper style1 fade-up">
+						<div class="inner">
+							<h2>About Us</h2>
+							<p>This site is maintained by COmics@Sinica.tw.<br></p>
+							 
+                                                        <div class="split style1">
+								<section>
+                                                                     <a href="http://ms.iis.sinica.edu.tw/COmics/aboutus.html" target="_blank"><img src="images/new_banner5NNN.jpg" alt="" data-position="" width="500" /></a> 
+								</section>
+								<section>
+									<ul class="contact">
+										<li>
+											<h3>Address</h3>
+											<span>128 Academia Road, Section 2,<br />
+											Nankang, Taipei 115,<br />
+											Taiwan</span>
+										</li>
+										<li>
+											<h3>Email</h3>
+											<a href="#">sv.mass.iasl.sinica.tw@gmail.com</a>
+										</li>
+										<li>
+
+										</li>
+										
+									</ul>
+								</section>
+							</div>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper style1-alt">
+				<div class="inner">
+					<ul class="menu">
+                                            <li><label>&copy; 2019 <a href="http://ms.iis.sinica.edu.tw/COmics/aboutus.html">Computational Omics Labortary</a>. Institute of Information Science. Academia Sinica. All Rights Reserved.</label></li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+                        <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+         <script src="./FileSaver.min.js"></script>
+         
+<script src="https://use.fontawesome.com/d5dff24352.js"></script>
+
+        <script>
+if (window.File && window.FileReader && window.FileList && window.Blob) {
+  // Great success! All the File APIs are supported.
+} else {
+  alert('The File APIs are not fully supported in this browser.');
+}
+
+function Reset()
+{
+    document.getElementById('PP_DMethod').value= 0;
+    document.getElementById('PP_SiteDecoy').value= 0;
+    document.getElementById('PP_Protease').value= 0;
+    document.getElementById('OutputContent').value= "";
+    document.getElementById('fileContent').value= "";
+    document.getElementById('ReadStatus').value= "";
+    document.getElementById('ShowDownloadLink').style.visibility="hidden";
+    document.getElementById('input');
+    document.getElementById('input').value= "";
+    document.getElementById('DecoyTag').value= "Decoy";
+    document.getElementById('p1').checked=true;
+    document.getElementById('Me1').checked=true;
+    document.getElementById('Dtag').checked=true;
+    HideProteaseList();
+    document.getElementById('RunID').disabled=false;
+    document.getElementById('progressT').style.visibility="hidden";
+    myWorker.terminate();
+}
+
+function getValuePar_Protease(obj){
+	document.getElementById('PP_Protease').value= obj.value;
+}
+
+function getValuePar_SiteDecoy(obj){
+	document.getElementById('PP_SiteDecoy').value= obj.value;
+}
+
+function getValuePar_DMethod(obj){
+	document.getElementById('PP_DMethod').value= obj.value;
+}
+
+
+function SequenceReverse(XAA)
+{
+   dstr =XAA.split("").reverse();
+   ZZ = dstr.join("");
+   return ZZ;
+}
+
+
+function PseudoReverse(XAA,mode)
+{
+    dstr =XAA.split("");
+    
+    //datan=dstr.map( function(element, index) {
+        //if(element==="K" ||element==="R" )
+        //return index;});
+    switch (Number(mode) ){
+    case 0:
+    datan=dstr.map( function(element, index) {
+            if(element==="K" ||element==="R" )
+            return index;});
+    break;
+    case 1:
+    datan=dstr.map( function(element, index) {
+            if((element==="K" ||element==="R") && dstr[index+1]!=="P" )
+            return index;});
+    break;
+    case 2:
+    datan=dstr.map( function(element, index) {
+            if((element==="R")  )
+            return index;});
+    break;
+    case 3:
+    datan=dstr.map( function(element, index) {
+            if((element==="R") && dstr[index+1]!=="P")
+            return index;});
+    break;
+    case 4:
+    datan=dstr.map( function(element, index) {
+            if((element==="D" ||element==="E")  )
+            return index;});
+    break;
+    case 5:
+    datan=dstr.map( function(element, index) {
+            if((element==="D" ||element==="E") && dstr[index+1]!=="P" )
+            return index;});
+    break;
+    case 6:
+    datan=dstr.map( function(element, index) {
+            if((element==="K" ) )
+            return index;});
+    break;
+        }
+    
+    datan=datan.filter(function (el) {
+        return el !== undefined;
+    });
+    
+    startPos=0;
+    lengthKR=datan.length-1;
+    var Out="";
+    for(i=0;i<=lengthKR;i++)
+    {
+        if(i===0)
+        {
+            ass=dstr.slice(0,(datan[i])).reverse();
+            bbd=dstr[datan[i]];
+            Out=Out+ass.join('')+bbd;
+        }else{
+            ass=dstr.slice((datan[i-1]+1),(datan[i])).reverse();
+            bbd=dstr[datan[i]];
+            Out=Out+ass.join('')+bbd;
+        }
+    }
+  
+    if(dstr.length!==datan[datan.length-1])
+    {  
+        var tttsss=dstr.slice(datan[datan.length-1]+1,dstr.length).reverse()
+        Out=Out+tttsss.join('');
+    }
+    
+    return Out;
+    
+
+}
+
+
+function readFile() {
+    var selectedFile = document.getElementById('input').files[0];
+    file =  selectedFile;
+    var fReader = new FileReader();           
+fReader.onload = function (event) {
+document.getElementById('fileContent').value = event.target.result;
+document.getElementById('ReadStatus').value ="OK";
+
+};
+    fReader.readAsText(file);
+  
+   
+}
+
+
+function Line2Fasta(dataHere)
+{
+    var i=1;
+    var i_end=dataHere.length;
+    var tempN=[dataHere[0]];
+    var seqtemp="";
+    do {
+        if(dataHere[i].charAt(0)===">")
+        {
+            tempN.push(seqtemp);
+            seqtemp=""
+            tempN.push(dataHere[i]);
+        }else{
+            seqtemp=seqtemp+dataHere[i]
+        }
+        
+        i++;
+        }while( i<i_end )
+            
+    tempN.push(seqtemp);  
+    return tempN;
+}
+
+
+function RunDecoy()
+{    
+    document.getElementById('progressT').style.visibility="";
+    document.getElementById('ShowDownloadLink').style.visibility="hidden";
+    document.getElementById('OutputContent').value="";
+    
+    var Par_DMethod=document.getElementById('PP_DMethod').value;
+    if(Par_DMethod!=="0")
+    {
+        var Par_Protease=document.getElementById('PP_Protease').value;
+    }
+    var Par_SiteDecoy=document.getElementById('PP_SiteDecoy').value;
+    var Par_DecoyTag=document.getElementById('DecoyTag').value;
+    //(readFile());
+    var Fasta=document.getElementById('fileContent').value;
+    var DataPerLine=Fasta.split("\n"); 
+    if(DataPerLine[0].charAt(0)!==DataPerLine[2].charAt(0))
+    {
+        DataPerLine=Line2Fasta(DataPerLine);
+    }
+    document.getElementById('RunID').disabled=true;
+    var Reseult_decoy="";
+    if (window.Worker) {
+	const myWorker = new Worker("assets/js/worker.js");
+	  myWorker.postMessage([DataPerLine,Par_DMethod,Par_Protease,Par_SiteDecoy,Par_DecoyTag]);
+	myWorker.onmessage = function(e) {
+		Reseult_decoy = e.data;
+		console.log('Message received from worker');
+                document.getElementById('OutputContent').value=Reseult_decoy.join("\n");
+                document.getElementById('ShowDownloadLink').style.visibility="visible";
+                document.getElementById('progressT').style.visibility="hidden";
+                document.getElementById('fileContent').value="";
+                myWorker.terminate();
+            }
+        } else {
+	console.log('Your browser doesn\'t support web workers.')
+        }
+ 
+
+
+    
+    
+    
+
+    var fer=0;
+}
+
+function Savefile()
+{
+        var OutName="Decoy"
+        var Par_DMethod=document.getElementById('PP_DMethod').value;
+        if(Par_DMethod===0)
+        {
+            OutName=OutName+"_Reverse";
+        }else if(Par_DMethod===1){
+            OutName=OutName+"_PseudoReverse";
+        }else{
+            OutName=OutName+"_PseudoShuffle";
+        }
+        
+        if(Par_DMethod!=="1")
+        {
+            var Par_Protease=document.getElementById('PP_Protease').value;
+             switch (Number(Par_Protease) ){
+                 case 0:
+                   OutName=OutName+"_Tryspin(KR)";
+                   break;
+                   case 1:
+                  OutName=OutName+"_Tryspin(KRnotP)";
+                   break;
+                   case 2:
+                   OutName=OutName+"_ArgC(R)";
+                   break;
+                   case 3:
+                   OutName=OutName+"_ArgC(RnotP)";
+                   break;    
+                   case 4:
+                   OutName=OutName+"_GluC(DE)";
+                   break;
+                   case 5:
+                   OutName=OutName+"_GluC(DEnotP)";
+                   break;
+                   case 6:
+                   OutName=OutName+"_LysC(K)";
+                   break;
+                       }
+        }
+        var Par_SiteDecoy=document.getElementById('PP_SiteDecoy').value;
+        if(Par_SiteDecoy===0)
+        {
+            OutName=OutName+"_Prefix";
+        }else{
+             OutName=OutName+"_Suffix";
+        }
+
+    
+         var blob = new Blob([document.getElementById('OutputContent').value], {type: "text/plain;charset=utf-8"});
+      saveAs(blob, OutName+".Fasta");
+}
+
+function ShowProteaseList()
+{
+
+    document.getElementById('p1').disabled=false;
+    document.getElementById('p2').disabled=false;
+    document.getElementById('p3').disabled=false;
+    document.getElementById('p4').disabled=false;
+    document.getElementById('p5').disabled=false;
+    document.getElementById('p6').disabled=false;
+    document.getElementById('p7').disabled=false;
+    
+}
+
+function HideProteaseList()
+{
+    document.getElementById('p1').disabled=true;
+    document.getElementById('p2').disabled=true;
+    document.getElementById('p3').disabled=true;
+    document.getElementById('p4').disabled=true;
+    document.getElementById('p5').disabled=true;
+    document.getElementById('p6').disabled=true;
+    document.getElementById('p7').disabled=true;
+    document.getElementById('p1').checked=true;
+}
+
+function PseudoShuffle(XAA,mode)
+{
+    dstr =XAA.split("");
+    
+
+    switch (Number(mode) ){
+    case 0:
+    datan=dstr.map( function(element, index) {
+            if(element==="K" ||element==="R" )
+            return index;});
+    break;
+    case 1:
+    datan=dstr.map( function(element, index) {
+            if((element==="K" ||element==="R") && dstr[index+1]!=="P" )
+            return index;});
+    break;
+    case 2:
+    datan=dstr.map( function(element, index) {
+            if((element==="R")  )
+            return index;});
+    break;
+    case 3:
+    datan=dstr.map( function(element, index) {
+            if((element==="R") && dstr[index+1]!=="P")
+            return index;});
+    break;
+    case 4:
+    datan=dstr.map( function(element, index) {
+            if((element==="D" ||element==="E")  )
+            return index;});
+    break;
+    case 5:
+    datan=dstr.map( function(element, index) {
+            if((element==="D" ||element==="E") && dstr[index+1]!=="P" )
+            return index;});
+    break;
+    case 6:
+    datan=dstr.map( function(element, index) {
+            if((element==="K" ) )
+            return index;});
+    break;
+        }
+    
+    datan=datan.filter(function (el) {
+        return el !== undefined;
+    });
+    
+    startPos=0;
+    lengthKR=datan.length-1;
+    var Out="";
+    for(i=0;i<=lengthKR;i++)
+    {
+        if(i===0)
+        {
+            ass=shuffle(dstr.slice(0,(datan[i])));
+            bbd=dstr[datan[i]];
+            Out=Out+ass.join('')+bbd;
+        }else{
+            ass=shuffle(dstr.slice((datan[i-1]+1),(datan[i])));
+            bbd=dstr[datan[i]];
+            Out=Out+ass.join('')+bbd;
+        }
+    }
+  
+    if(dstr.length!==datan[datan.length-1])
+    {  
+        var tttsss=shuffle(dstr.slice(datan[datan.length-1]+1,dstr.length))
+        Out=Out+tttsss.join('');
+    }
+    
+    return Out;
+    
+
+}
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
+}
+
+
+
+//document.write(PseudoReverse("123K56R"));
+        </script>
+
+	</body>
+</html>
